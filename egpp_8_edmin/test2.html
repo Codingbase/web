@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<button id="get" >异步获取数据</button>
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<script src="scripts/jquery.jsonp-2.4.0.min.js"></script>
+<script>
+    var log=function (obj) {
+        console.log(obj);
+    }
+    var get=document.getElementById('get');
+    get.addEventListener('click',function () {
+        $.getJSON('https://cn.bing.com/az/hprichbg/rb/MatusevichGlacier_ZH-CN13151914775_1920x1080.jpg',function (data) {
+            log('result data:'+data);
+        });
+
+    },false);
+    var jsontree = [];
+    $.ajax({
+        url: "https://cn.bing.com/az/hprichbg/rb/MatusevichGlacier_ZH-CN13151914775_1920x1080.jpg",
+        type: "GET",
+        dataType: 'JSON',
+        success: function(result){
+            log('result data:'+result);
+        }
+    });
+    $.ajax({
+        url:'http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=13800138000',
+        type:'GET',
+        data:'JSON',
+        dataType:'jsonp',
+        success:function(ret){
+            console.log(ret);
+        }
+    });
+</script>
+</body>
+</html>
