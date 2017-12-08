@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+<body>
+
+
+<button onclick="sendData({tel:'13700010001'})">Click Me!</button>
+
+<script>
+
+    // 首先创建一个用来发送数据的iframe.
+    var iframe = document.createElement("iframe");
+    iframe.name = "myTarget";
+
+    // 必须把这个iframe插入当前文档.
+    window.addEventListener("load", function () {
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+    });
+
+    // 下面这个函数是真正用来发送数据的.
+    // 它只有一个参数,一个包含键值对数据格式的对象.
+    function sendData(data) {
+        var name,
+            form = document.createElement("form"),
+            node = document.createElement("input");
+
+        // 注册iframe的load事件处理程序,如果你需要在响应返回时执行一些操作的话.
+        iframe.addEventListener("load", function () {
+            alert("Yeah! Data sent.");
+        });
+
+        form.action = "http://tcc.taobao.com/cc/json/mobile_tel_segment.htm";
+        form.target = iframe.name;
+
+        for(name in data) {
+            node.name  = name;
+            node.value = data[name].toString();
+            form.appendChild(node.cloneNode());
+        }
+
+        // 表单元素需要添加到主文档中.
+        form.style.display = "none";
+        document.body.appendChild(form);
+
+        form.submit();
+
+        // 表单提交后,就可以删除这个表单,不影响下次的数据发送.
+//        document.body.removeChild(form);
+        return data
+    }
+//    $.get("http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=13800138000", { name: "John", time: "2pm" } );
+    $.ajax({
+        url: 'http://tcc.taobao.com/cc/json/mobile_tel_segment.htm'+sendData(data),
+        type: 'GET',
+        data: 'JSON',
+        dataType: 'jsonp',
+        success: function (ret) {
+//            对象转字符串
+            var tt = JSON.stringify(ret)
+//            字符串转json
+            var data = JSON.parse(tt)
+            console.log(typeof data)
+//            打印json中的一个value
+            console.log(data.mts);
+//            console.log(typeof data);
+            $("#show").append("<table frame='box'><tr><th>" + data.mts + "</th><th>" + data.carrier + "</th><th>" + data.province + "</th><th>" + data.catName + "</th><th>" + data.telString + "</th></tr></table>")
+        }
+    });
+
+
+    $("input").keyup(function(){
+        txt=$("input").val();
+        $.post("http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=",{suggest:txt},function(result){
+            $("span").html(result);
+        });
+    });
+</script>
+<ul id="show"></ul>
+
+
+</body>
+
+</html>
