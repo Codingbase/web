@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<p id="p-id">hello</p>
+<script>
+    $.ajax({
+        url: 'http://localhost:3000',
+        type: 'GET',
+        data: 'JSON',
+//        dataType: 'jsonp',
+        success: function (ret) {
+//            对象转字符串
+            console.log(ret[1].title);
+            console.log(ret[1].href);
+//            字符串转json
+//            var data = JSON.parse(tt)
+
+//            打印json中的一个value
+
+//            console.log(typeof data);
+            for(var i=0;i<ret.length;i++) {
+                var title = ret[i].title;
+                var href = ret[i].href;
+                $("#show").append("<li><br>"+title+href,"<br/></li>");
+//                $("#show").html($("#show").html()+"<br>"+title+"----"+href+"</br>");
+
+            }
+
+//            $("#show").append("<table frame='box'><tr><th>" + data.mts + "</th><th>" + data.carrier + "</th><th>" + data.province + "</th><th>" + data.catName + "</th><th>" + data.telString + "</th></tr></table>")
+        }
+
+
+    });
+// 获取<p id="p-id">...</p>
+var p = document.getElementById('p-id');
+// 设置文本为abc:
+p.innerHTML = 'ABC'; // <p id="p-id">ABC</p>
+// 设置HTML:
+p.innerHTML = 'ABC <span style="color:red">RED</span> XYZ';
+// <p>...</p>的内部结构已修改
+</script>
+
+<ul id="show"></ul>
+</body>
+
+</html>
+
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)

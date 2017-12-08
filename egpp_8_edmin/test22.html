@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<!--<button id="get" >获取数据</button>-->
+<ul id="show">
+
+</ul>
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<script>
+    <!--直接展示数据-->
+    $(document).ready(function () {
+        $.ajax({
+        url:'http://api.laifudao.com/open/xiaohua.json',
+        type:'GET',
+        success:function(ret){
+            var data = JSON.parse(ret)
+//            console.log(typeof JSON.stringify(ret));
+            for(var i=0;i<data.length;i++) {
+                $("#show").append('<h2 class="title">'+data[i].title+'</h2>'+'<p class="content">'
+                        +data[i].content+'</p>')
+            }
+//            $("#list").html('');
+//            var json = eval(ret);
+//            $.each(json,function (index,item) {
+//                // 循环获取数据
+//                var title=json[index].title;
+//                var content=json[index].content;
+//                var urls =json[index].url
+//                $("#list").html($("#list").html() + "<br>" + title + "-" + content + "-" + urls + "<br/>");
+//
+//
+//            });
+
+        },
+            error: function(res) {
+                console.log(res)
+            }
+    });
+    })
+
+</script>
+<ul id="list"></ul>
+</body>
+</html>

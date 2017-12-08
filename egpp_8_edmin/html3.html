@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+
+<form name="input"  method="get">
+input phone num:
+<input id="phonen" type="text">
+<input id="sumit" type="button" value="提交">
+</form>
+<script>
+    //获取点击提交事件 #获取id
+    var btn = $("#sumit");
+    btn.click(function () {
+        // # 获取id=phonen的值
+        var phone = 'tel=' + $('#phonen')[0].value;
+        console.log('p..', phone);
+        $.ajax({
+        url: 'http://tcc.taobao.com/cc/json/mobile_tel_segment.htm',
+        type: 'GET',
+        data: phone,
+        dataType: 'jsonp',
+        success: function (ret) {
+//            对象转字符串
+            var tt = JSON.stringify(ret);
+//            字符串转json
+            var data = JSON.parse(tt);
+            console.log(data);
+//            打印json中的一个value
+//            console.log(data.mts);
+//            console.log(typeof data);
+            $("#show").append("<table frame='box'><tr><th>" + data.mts + "</th><th>" + data.carrier + "</th><th>" + data.province + "</th><th>" + data.catName + "</th><th>" + data.telString + "</th></tr></table>");
+        }
+    });
+    })
+
+</script>
+<ul id="show"></ul>
+</body>
+</html>

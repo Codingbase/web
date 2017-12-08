@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Show Product List</title>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+
+
+</head>
+<body>
+<h2>Hello World!</h2>
+<div id="result" style="color:red"></div>
+<script>
+    $.ajax({
+        url: 'http://localhost:3000/',
+        type: 'GET',
+        data: 'data',
+        dataType: 'jsonp',
+        success: function (ret) {
+//            对象转字符串
+            var tt = JSON.stringify(ret);
+//            字符串转json
+            var data = JSON.parse(tt);
+            console.log(data);
+//            打印json中的一个value
+//            console.log(data.mts);
+//            console.log(typeof data);
+//            $("#show").append("<table frame='box'><tr><th>" + data.mts + "</th><th>" + data.carrier + "</th><th>" + data.province + "</th><th>" + data.catName + "</th><th>" + data.telString + "</th></tr></table>");
+        }
+    });
+
+
+</script>
+<ul id="show"></ul>
+</body>
+</html>
